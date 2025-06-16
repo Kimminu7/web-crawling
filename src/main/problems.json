@@ -1,0 +1,55 @@
+[
+  {
+    "id": 3,
+    "title": "area",
+    "time_limit": "1 초",
+    "description": "두 자연수를 입력으로 받아 직사각형의 넓이를 구하는 프로그램을 작성하시오.",
+    "input": "두 자연수가 입력으로 주어지고 , 각각 가로 , 세로 길이이다.단위는 같은 것으로 가정한다.\n두 수는 1000 을 넘지 않는다.\n온라인 저지를 처음 사용하는 분들을 위해....\n\"입력의 제한 조건 1000 을 넘지 않는다\" 이 부분은 따로 처리 하지 않으셔도 됩니다. 입력 데이터가 이 범위를 넘어서 들어오지 않는다는 것입니다.\n\n이 제한 조건이 없으면 20 억 이상의 수가 입력으로 주어지는 경우 정수형 변수로 해결할 수가 없습니다. 즉 정수 범위 안의 입력이니 정수로 처리할 수 있다는 것입니다.\n\n\"입력\" \"출력\"...이 부분도 출력해서는 안되고 단지 두 수만 입력으로 받아서 결과 값만을 출력해야 합니다.\n\n시간초과 오류란 각 문제 당 제한 시간이 있어 이 제한 시간내에 결과가 나오지 않으면 이 오류를 출력합니다. 이 오류가 발생할 경우 조금 더 좋은 알고리즘을 생각해서 해결해야 합니다.",
+    "output": "직 사각형의 넓이를 출력한다.",
+    "sample": "입력\n\n10 20\n\n출력\n\n200"
+  },
+  {
+    "id": 4,
+    "title": "m2s",
+    "time_limit": "1 초",
+    "description": "분을 입력으로 받아 초로 변환하는 프로그램을 작성하시오.",
+    "input": "분 m 이 자연수로 주어진다. ( 1 <= m <= 60)",
+    "output": "변환 된 초를  출력 예의 형식으로 출력한다. 출력을 간단히 하기 위해 1 분도 1 minutes 로 쓰기로 한다.",
+    "sample": "입력\n\n2\n\n출력\n\n2 minutes is 120 seconds."
+  },
+  {
+    "id": 5,
+    "error": "Message: no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\"/html/body/p\"}\n  (Session info: chrome=137.0.7151.104); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6df1ffe75+79173]\n\tGetHandleVerifier [0x0x7ff6df1ffed0+79264]\n\t(No symbol) [0x0x7ff6defb9e5a]\n\t(No symbol) [0x0x7ff6df010586]\n\t(No symbol) [0x0x7ff6df01083c]\n\t(No symbol) [0x0x7ff6df064247]\n\t(No symbol) [0x0x7ff6df0389af]\n\t(No symbol) [0x0x7ff6df06100d]\n\t(No symbol) [0x0x7ff6df038743]\n\t(No symbol) [0x0x7ff6df0014c1]\n\t(No symbol) [0x0x7ff6df002253]\n\tGetHandleVerifier [0x0x7ff6df4ca2ad+3004797]\n\tGetHandleVerifier [0x0x7ff6df4c46fd+2981325]\n\tGetHandleVerifier [0x0x7ff6df4e3350+3107360]\n\tGetHandleVerifier [0x0x7ff6df21a9fe+188622]\n\tGetHandleVerifier [0x0x7ff6df22228f+219487]\n\tGetHandleVerifier [0x0x7ff6df208dc4+115860]\n\tGetHandleVerifier [0x0x7ff6df208f79+116297]\n\tGetHandleVerifier [0x0x7ff6df1ef528+11256]\n\tBaseThreadInitThunk [0x0x7ffd2dcd7374+20]\n\tRtlUserThreadStart [0x0x7ffd2e11cc91+33]\n"
+  },
+  {
+    "id": 6,
+    "title": "op",
+    "time_limit": "1 초",
+    "description": "a 가 5 이고 , b 가 3 이면",
+    "input": "두 수 a,b 는 1000 이하이다.",
+    "output": "숫자와 연산자 사이에 공백이 없이 출력 예의 형식으로 출력한다.",
+    "sample": "5+3=8\n5-3=2\n5*3=15\n5/3=1\n5%3=2"
+  },
+  {
+    "id": 7,
+    "title": "triangle",
+    "time_limit": "1 초",
+    "description": "삼각형 넓이를 구하는 문제이다.",
+    "input": "두 자연수가 입력으로 주어진다. 두 수는 1000 이하의 자연수이고 ,차례대로 밑변과 높이이다.",
+    "output": "넓이를\n소수 이하 2 자리 ( 세 번째 자리에서 반올림 )\n까지 출력한다.",
+    "sample": "입력\n\n9 83 \n\n출력\n\n373.50"
+  },
+  {
+    "id": 8,
+    "title": "average",
+    "time_limit": "1 초",
+    "description": "정수 입력 사이에는 공백으로 구분되며 , 평균은 소수 2 째 자리까지 출력하세요.(소수 3 번째 자리에서 반올림)",
+    "input": "입력은 1 에서 100 사이의 자연수가 입력된다.",
+    "output": "",
+    "sample": "입력\n\n7 7 7 7\n\n출력\n\n7.00\n\n입력\n\n2 5 9 5\n\n출력\n\n5.25"
+  },
+  {
+    "id": 9,
+    "error": "Message: no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\"/html/body/p\"}\n  (Session info: chrome=137.0.7151.104); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6df1ffe75+79173]\n\tGetHandleVerifier [0x0x7ff6df1ffed0+79264]\n\t(No symbol) [0x0x7ff6defb9e5a]\n\t(No symbol) [0x0x7ff6df010586]\n\t(No symbol) [0x0x7ff6df01083c]\n\t(No symbol) [0x0x7ff6df064247]\n\t(No symbol) [0x0x7ff6df0389af]\n\t(No symbol) [0x0x7ff6df06100d]\n\t(No symbol) [0x0x7ff6df038743]\n\t(No symbol) [0x0x7ff6df0014c1]\n\t(No symbol) [0x0x7ff6df002253]\n\tGetHandleVerifier [0x0x7ff6df4ca2ad+3004797]\n\tGetHandleVerifier [0x0x7ff6df4c46fd+2981325]\n\tGetHandleVerifier [0x0x7ff6df4e3350+3107360]\n\tGetHandleVerifier [0x0x7ff6df21a9fe+188622]\n\tGetHandleVerifier [0x0x7ff6df22228f+219487]\n\tGetHandleVerifier [0x0x7ff6df208dc4+115860]\n\tGetHandleVerifier [0x0x7ff6df208f79+116297]\n\tGetHandleVerifier [0x0x7ff6df1ef528+11256]\n\tBaseThreadInitThunk [0x0x7ffd2dcd7374+20]\n\tRtlUserThreadStart [0x0x7ffd2e11cc91+33]\n"
+  }
+]
