@@ -32,55 +32,71 @@ def extract_section_text(driver, header_text):
         return result.join('\\n').trim();
     """)
 
-# 문제 ID 리스트 (10개)
-problem_ids = [
-    "area", "m2s", "swap", "op", "triangle", "average", "CtoF", "q_r", "change", "sec", "k"
-]
-
 base_url = "http://59.23.132.191/30stair/"
 results = []
 
 driver.get(base_url)
-for i in range(3, 10):
-    try:
-        driver.find_element(By.XPATH, '/html/body/table[1]/tbody/tr['+str(i)+']/td[2]/a').click()
-        time.sleep(0.1)
-        title = driver.find_element(By.XPATH, '/html/body/div[1]').text.strip().replace("프로그램 명: ", "")
-        time_limit = driver.find_element(By.XPATH, '/html/body/div[2]').text.strip().replace("제한시간: ", "")
-        try:
-            description = driver.find_element(By.XPATH, '//*[comment()[contains(., "here")]]/following-sibling::*[1]').text.strip()
-        except:
-            description = driver.find_element(By.XPATH, '/html/body/p').text.strip()
-        input_description = extract_section_text(driver, "입력")
-        output_description = extract_section_text(driver, "출력")
+tables = driver.find_elements(By.XPATH, '/html/body/table')
+problem_id = 1
 
-        try:
-            sample = driver.find_element(By.XPATH, '/html/body/pre').text.strip()
-        except:
-            sample = ""
+for table_index, table in enumerate(tables, start=1):
+    rows = table.find_elements(By.TAG_NAME, 'tr')
 
-        results.append({
-            "id": i,
-            "title": title,
-            "time_limit": time_limit,
-            "description": description,
-            "input": input_description,
-            "output": output_description,
-            "sample": sample
-        })
-
-    except Exception as e:
+    # 실제 문제 데이터는 보통 tr[2]부터 시작 (헤더 제외)
+    for row_index in range(1, len(rows)):
         try:
-            sample = driver.find_element(By.CLASS_NAME, 'io').text.strip()
-        except:
-            sample = ""
-        results.append({
-            "id": i,
-            "error": str(e)
-        })
-    driver.back()
+            # 동적으로 table과 row 인덱스 조합
+            xpath = f'/html/body/table[{table_index}]/tbody/tr[{row_index+1}]/td[2]/a'
+            link = driver.find_element(By.XPATH, xpath)
+            link.click()
+            time.sleep(0.002)
+
+            # 문제 상세 수집
+            title = driver.find_element(By.XPATH, '/html/body/div[1]').text.strip().replace("프로그램 명: ", "")
+            time_limit = driver.find_element(By.XPATH, '/html/body/div[2]').text.strip().replace("제한시간: ", "")
+            try:
+                description = driver.find_element(By.XPATH, '//*[comment()[contains(., "here")]]/following-sibling::*[1]').text.strip()
+            except:
+                description = driver.find_element(By.XPATH, '/html/body/p').text.strip()
+
+            input_description = extract_section_text(driver, "입력")
+            output_description = extract_section_text(driver, "출력")
+
+            try:
+                sample = driver.find_element(By.XPATH, '/html/body/pre').text.strip()
+            except:
+                try:
+                    sample = driver.find_element(By.CLASS_NAME, 'io').text.strip()
+                except:
+                    sample = ""
+
+            results.append({
+                "id": problem_id,
+                "title": title,
+                "time_limit": time_limit,
+                "description": description,
+                "input": input_description,
+                "output": output_description,
+                "sample": sample
+            })
+            print(f"[{problem_id}] {title} ✅")
+
+        except Exception as e:
+            results.append({
+                "id": problem_id,
+                "error": str(e)
+            })
+            print(f"[{problem_id}] 오류: {e}")
+
+        finally:
+            problem_id += 1
+            driver.back()
+            time.sleep(0.002)
+
 driver.quit()
 
 # JSON 저장
 with open("problems.json", "w", encoding="utf-8") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
+
+
