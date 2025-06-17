@@ -78,7 +78,7 @@ for table_index, table in enumerate(tables, start=1):
             xpath = f'/html/body/table[{table_index}]/tbody/tr[{row_index+1}]/td[2]/a'
             link = driver.find_element(By.XPATH, xpath)
             link.click()
-            time.sleep(0.2)
+            time.sleep(0.5)
 
             title = driver.find_element(By.XPATH, '/html/body/div[1]').text.strip().replace("프로그램 명: ", "")
             time_limit = driver.find_element(By.XPATH, '/html/body/div[2]').text.strip().replace("제한시간: ", "")
@@ -120,7 +120,7 @@ for table_index, table in enumerate(tables, start=1):
         finally:
             problem_id += 1
             driver.back()
-            time.sleep(0.2)
+            time.sleep(0.5)
 
 driver.quit()
 
