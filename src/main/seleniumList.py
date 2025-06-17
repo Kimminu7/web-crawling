@@ -9,7 +9,7 @@ options = Options()
 options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
-# 공통 구조에서 <h4> 이후 설명 추출 함수
+# 설명 블록 추출 함수 (<h4> 기준)
 def extract_section_text(driver, header_text):
     return driver.execute_script(f"""
         const h4s = Array.from(document.querySelectorAll('h4'));
@@ -29,9 +29,40 @@ def extract_section_text(driver, header_text):
             el = el.nextSibling;
         }}
 
-        return result.join('\\n').trim();
+       return result.filter(line => line.trim() !== '').join('\\n').trim();
     """)
 
+# 샘플 input/output 분리 함수
+def parse_sample_text(sample_text):
+    lines = sample_text.strip().splitlines()
+    input_part = []
+    output_part = []
+    current = None
+
+    for line in lines:
+        line = line.strip()
+        if line == "입력":
+            current = "input"
+            continue
+        elif line == "출력":
+            current = "output"
+            continue
+
+        if current == "input":
+            input_part.append(line)
+        elif current == "output":
+            output_part.append(line)
+        elif current is None:
+            # "입력/출력" 구분 없을 경우 자동 분리
+            if not input_part:
+                input_part.append(line)
+            else:
+                output_part.append(line)
+
+    return "\n".join([line for line in input_part if line.strip()]), "\n".join([line for line in output_part if line.strip()])
+
+
+# 크롤링 시작
 base_url = "http://59.23.132.191/30stair/"
 results = []
 
@@ -42,18 +73,16 @@ problem_id = 1
 for table_index, table in enumerate(tables, start=1):
     rows = table.find_elements(By.TAG_NAME, 'tr')
 
-    # 실제 문제 데이터는 보통 tr[2]부터 시작 (헤더 제외)
     for row_index in range(1, len(rows)):
         try:
-            # 동적으로 table과 row 인덱스 조합
             xpath = f'/html/body/table[{table_index}]/tbody/tr[{row_index+1}]/td[2]/a'
             link = driver.find_element(By.XPATH, xpath)
             link.click()
-            time.sleep(0.002)
+            time.sleep(0.2)
 
-            # 문제 상세 수집
             title = driver.find_element(By.XPATH, '/html/body/div[1]').text.strip().replace("프로그램 명: ", "")
             time_limit = driver.find_element(By.XPATH, '/html/body/div[2]').text.strip().replace("제한시간: ", "")
+
             try:
                 description = driver.find_element(By.XPATH, '//*[comment()[contains(., "here")]]/following-sibling::*[1]').text.strip()
             except:
@@ -63,12 +92,14 @@ for table_index, table in enumerate(tables, start=1):
             output_description = extract_section_text(driver, "출력")
 
             try:
-                sample = driver.find_element(By.XPATH, '/html/body/pre').text.strip()
+                sample_text = driver.find_element(By.XPATH, '/html/body/pre').text.strip()
             except:
                 try:
-                    sample = driver.find_element(By.CLASS_NAME, 'io').text.strip()
+                    sample_text = driver.find_element(By.CLASS_NAME, 'io').text.strip()
                 except:
-                    sample = ""
+                    sample_text = ""
+
+            sample_input, sample_output = parse_sample_text(sample_text)
 
             results.append({
                 "id": problem_id,
@@ -77,8 +108,10 @@ for table_index, table in enumerate(tables, start=1):
                 "description": description,
                 "input": input_description,
                 "output": output_description,
-                "sample": sample
+                "sample_input": sample_input,
+                "sample_output": sample_output
             })
+
             print(f"[{problem_id}] {title} ✅")
 
         except Exception as e:
@@ -87,12 +120,10 @@ for table_index, table in enumerate(tables, start=1):
         finally:
             problem_id += 1
             driver.back()
-            time.sleep(0.002)
+            time.sleep(0.2)
 
 driver.quit()
 
 # JSON 저장
 with open("problems.json", "w", encoding="utf-8") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
-
-
