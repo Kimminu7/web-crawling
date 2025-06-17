@@ -13,9 +13,9 @@ for p in problems:
         "category": "FOR_BEGINNER",
         "title": p["title"],
         "description": p["description"],
-        "difficulty": "BRONZE",
+        "difficulty": "브론즈",
         "memoryLimit": 50000,
-        "timeLimit": p["time_limit"],
+        "timeLimit": 1.0,
         "reference": "ORIGINAL"
     })
 
