@@ -82,10 +82,6 @@ for table_index, table in enumerate(tables, start=1):
             print(f"[{problem_id}] {title} ✅")
 
         except Exception as e:
-            results.append({
-                "id": problem_id,
-                "error": str(e)
-            })
             print(f"[{problem_id}] 오류: {e}")
 
         finally:
